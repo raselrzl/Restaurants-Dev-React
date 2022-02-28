@@ -1,0 +1,129 @@
+[
+    {
+      "id": 1,
+      "name": "After Work",
+      "menuitems": [
+        {
+          "id": 1,
+          "name": "Plank Steak",
+          "rating": 4.5,
+          "numberOfReviews": 462,
+          "price": 465,
+          "image": "https://assets.epicurious.com/photos/578d20c095824bf90525e55b/16:9/w_1280,c_limit/grilled-flank-steak-with-rosemary.jpg",
+          "ingedients":"Potatis, Bacon, horicovert, Bea, rygbiff, smor,broccoli"
+        },
+        {
+          "id": 2,
+          "name": "Nisse",
+          "rating": 3.5,
+          "numberOfReviews": 641,
+          "price": 385,
+          "image": "http://cdn.shopify.com/s/files/1/2133/7151/articles/CedarPlankedFilet_3.jpg?v=1512420088",
+          "ingedients":"Sallad. Tomat, Bacom, Lök,Nisse Dressing, Chaddar"
+        },
+        {
+          "id": 3,
+          "name": "Ceaser Sallad",
+          "rating": 4.5,
+          "numberOfReviews": 133,
+          "price": 144,
+          "image": "https://www.nocow.se/wp-content/uploads/2020/04/Utvald-Bild-Vegansk-Grekisk-Sallad.jpeg",
+          "ingedients":"Sallad. Tomat, Bacom, Lök,Nisse Dressing, Chaddar"
+        },
+        {
+          "id": 4,
+          "name": "Steak Sandwitch",
+          "rating": 4.5,
+          "numberOfReviews": 462,
+          "price": 465,
+          "image": "https://www.alltidgrillat.se/wp-content/uploads/2017/04/ryggbiff.jpg",
+          "ingedients":"Sallad. Tomat, Bacom, Lök,Nisse Dressing, Chaddar"
+        }     
+         
+      ]
+    },
+    {
+      "id": 2,
+      "name": "Dinner",
+      "menuitems": [
+        {
+          "id": 4,
+          "name": "BBQ Burger",
+          "rating": 4.5,
+          "numberOfReviews": 462,
+          "price": 465,
+          "image": "https://www.santamariaworld.com/optimized/maximum/globalassets/foodservice/recipes/world-of-grill/bbq-cheese-burger.jpg",
+          "ingedients":"Sallad. Tomat, Bacom, Lök,Nisse Dressing, Chaddar"
+        },
+        {
+          "id": 5,
+          "name": "Deli Burger",
+          "rating": 4.5,
+          "numberOfReviews": 462,
+          "price": 465,
+          "image": "https://insanelygoodrecipes.com/wp-content/uploads/2020/05/Burger-with-fries-1024x536.png",
+          "ingedients":"Sallad. Tomat, Bacom, Lök,Nisse Dressing, Chaddar"
+        },
+        {
+          "id": 6,
+          "name": "Pasta",
+          "rating": 3.5,
+          "numberOfReviews": 641,
+          "price": 385,
+          "image": "https://www.executiveeffect.se/wp-content/uploads/2018/10/italienska-recept-1.jpg",
+          "ingedients":"Sallad. Tomat, Bacom, Lök,Nisse Dressing, Chaddar"
+        },
+        {
+          "id": 7,
+          "name": "Steak Menu",
+          "rating": 4.5,
+          "numberOfReviews": 133,
+          "price": 144,
+          "image": "https://www.seriouseats.com/thmb/uGGwEqPZf7PzhES1ZCAqHLgCbG8=/1500x844/smart/filters:no_upscale()/__opt__aboutcom__coeus__resources__content_migration__serious_eats__seriouseats.com__recipes__images__2015__05__Anova-Steak-Guide-Sous-Vide-Photos15-beauty-159b7038c56a4e7685b57f478ca3e4c8.jpg",
+          "ingedients":"Sallad. Tomat, Bacom, Lök,Nisse Dressing, Chaddar"
+        }
+      ]
+    },
+    {
+        "id": 2,
+        "name": "Drinks",
+        "menuitems": [
+          {
+            "id": 4,
+            "name": "Red Wine",
+            "rating": 4.5,
+            "numberOfReviews": 462,
+            "price": 465,
+            "image": "https://www.challengeduvin.com/wp-content/uploads/2021/06/a835885ed35b65cb65b05a969ef8db99-1.png",
+            "ingedients":"Sallad. Tomat, Bacom, Lök,Nisse Dressing, Chaddar"
+          },
+          {
+            "id": 5,
+            "name": "Sampange",
+            "rating": 4.5,
+            "numberOfReviews": 462,
+            "price": 465,
+            "image": "https://i.ytimg.com/vi/XXF5-HDXWGg/maxresdefault.jpg",
+            "ingedients":"Sallad. Tomat, Bacom, Lök,Nisse Dressing, Chaddar"
+          },
+          {
+            "id": 6,
+            "name": "Tequila",
+            "rating": 3.5,
+            "numberOfReviews": 641,
+            "price": 385,
+            "image": "https://www.wikihow.com/images/thumb/9/9d/Drink-Absinthe-Step-28-Version-2.jpg/-crop-342-184-327px-Drink-Absinthe-Step-28-Version-2.jpg",
+            "ingedients":"Sallad. Tomat, Bacom, Lök,Nisse Dressing, Chaddar"
+          },
+          {
+            "id": 7,
+            "name": "Öl",
+            "rating": 4.5,
+            "numberOfReviews": 133,
+            "price": 144,
+            "image": "https://images.everydayhealth.com/images/why-you-could-be-drinking-more-than-you-think-1440x810.jpg",
+            "ingedients":"Sallad. Tomat, Bacom, Lök,Nisse Dressing, Chaddar"
+          }
+        ]
+      }
+  ]
