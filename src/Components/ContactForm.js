@@ -106,7 +106,6 @@ const contactRef=collection(db, 'contacts',)
              </Box>
              <Box sx={{maxWidth: '100%', margin:3, }} > 
                <TextField
-//                  minRows={4} 
                   required
                   fullWidth 
                   label="Message" 

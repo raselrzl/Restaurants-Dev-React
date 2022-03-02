@@ -57,12 +57,12 @@ const ResponsiveAppBar = () => {
             </IconButton>
             <Drawer
               id="menu-appbar"
-              anchorEl={anchorElNav}              
+              anchorel={anchorElNav}              
               keepMounted
               open={Boolean(anchorElNav)}
               onClose={handleCloseNavMenu}
               sx={{
-            display: { xs: 'block', sm: 'none' },
+            display: { xs: 'block' },
             '& .MuiDrawer-paper': { boxSizing: 'border-box', width: 240 },
           }}
             >
