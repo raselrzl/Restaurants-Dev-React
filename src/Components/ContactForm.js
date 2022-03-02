@@ -42,8 +42,8 @@ export default function ContactForm() {
   const [isSubmitting, setIsSubmitting] = useState(false)
 
 //catch data from database
-const colref=collection(db, 'contacts',)
-  onSnapshot(colref,(snapshot)=>{
+const contactRef=collection(db, 'contacts',)
+  onSnapshot(contactRef,(snapshot)=>{
       let contacts=[]
       snapshot.docs.forEach((doc)=>{
           contacts.push({...doc.data(), id:doc.id})
@@ -57,7 +57,7 @@ const colref=collection(db, 'contacts',)
     setIsSubmitting(true)
     e.preventDefault();
 
-    addDoc(colref,{
+    addDoc(contactRef,{
       name: formdata.fullName,
       email: formdata.email,
       message: formdata.message,
