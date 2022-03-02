@@ -8,6 +8,13 @@ import Checkbox from '@mui/material/Checkbox'
 import MaterialUIPickers from './DateTimePicker';
 import { makeStyles } from '@material-ui/core'
 
+import { db } from '../utils/init-firebase'
+import {
+  collection,
+  onSnapshot,
+  addDoc,
+} from 'firebase/firestore'
+
  const useStyles = makeStyles({
   btn: {
      '&:hover': {
@@ -40,19 +47,43 @@ export default function BookingForm() {
 
   const classes = useStyles()
 
-      const onSubmit = (e) => {
-        setIsSubmitting(true)
-        e.preventDefault()
-        console.log(formdata)
-        setTimeout(() => {
-            console.log()
-            setIsSubmitting(false)
-        }, 5000)
-      }
+  //adding data to database
+  const bookRef=collection(db, 'booking',)
+
+
+  const onSubmit = (e) => {
+    setIsSubmitting(true)
+    e.preventDefault();
+
+    addDoc(bookRef,{
+      fullName: formdata.fullName,
+      email: formdata.email,
+      phoneNumber: formdata.phoneNumber,
+      numberOfPerson: formdata.numberOfPerson,
+      dateTime: formdata.dateTime,
+      note: formdata.note,
+      conditions: formdata.conditions,
+    })
+    .then(()=>{
+      setTimeout(() => {
+        setIsSubmitting(false)
+    }, 3000)
+    })
+    e.target.reset();
+  }
 
    const addDate = (date) =>{
        setFormdata({ ...formdata, dateTime: date })
     }
+
+ //catch data from database
+onSnapshot(bookRef,(snapshot)=>{
+    let booking=[]
+    snapshot.docs.forEach((doc)=>{
+      booking.push({...doc.data(), id:doc.id})
+    })
+    console.log(booking)
+})
 
 
   return (
