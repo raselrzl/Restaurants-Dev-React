@@ -15,7 +15,6 @@ import {
   collection,
   onSnapshot,
   addDoc,
-
 } from 'firebase/firestore'
 
 
@@ -43,7 +42,7 @@ export default function ContactForm() {
   const [isSubmitting, setIsSubmitting] = useState(false)
 
 //catch data from database
-const colref=collection(db, 'contacts')
+const colref=collection(db, 'contacts',)
   onSnapshot(colref,(snapshot)=>{
       let contacts=[]
       snapshot.docs.forEach((doc)=>{
