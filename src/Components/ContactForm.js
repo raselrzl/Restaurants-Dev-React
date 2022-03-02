@@ -12,8 +12,10 @@ import MarkunreadRoundedIcon from '@mui/icons-material/MarkunreadRounded';
 import { makeStyles } from '@material-ui/core'
 import { db } from '../utils/init-firebase'
 import {
-  collection, getDocs,
-  addDoc
+  collection,
+  onSnapshot,
+  addDoc,
+
 } from 'firebase/firestore'
 
 
@@ -42,20 +44,16 @@ export default function ContactForm() {
 
 //catch data from database
 const colref=collection(db, 'contacts')
-getDocs(colref)
-  .then((d)=>{
+  onSnapshot(colref,(snapshot)=>{
       let contacts=[]
-      d.docs.forEach((doc)=>{
+      snapshot.docs.forEach((doc)=>{
           contacts.push({...doc.data(), id:doc.id})
       })
       console.log(contacts)
   })
-  .catch(err=>{
-    console.log(err.message)
-  })
 
 
-  //submit data to database collection
+  //adding data to database
   const onSubmit = (e) => {
     setIsSubmitting(true)
     e.preventDefault();
@@ -82,7 +80,6 @@ getDocs(colref)
           <Paper  elevation={24} sx={{ padding:2, }}>
 
             <form onSubmit={onSubmit}>
-            {/* {console.log(props)} */}
              <Box sx={{maxWidth: '100%', margin:3, }} >
                 <TextField
                   required
