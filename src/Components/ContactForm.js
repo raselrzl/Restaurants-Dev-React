@@ -119,7 +119,7 @@ const colref=collection(db, 'contacts',)
              </Box>
              <Box sx={{maxWidth: '100%', margin:3,}} > 
                 <Button disabled={isSubmitting} fullWidth type="submit" variant="contained" sx={{ margin: '8px 0', backgroundColor: '#3b0f1c',color:'yellow' }} className={classes.btn}>
-                      {isSubmitting ? "Sending" : "Send"}
+                      {isSubmitting ? <Typography >Sending</Typography> : <Typography >Send</Typography>}
                 </Button>
              </Box>
              </form>
