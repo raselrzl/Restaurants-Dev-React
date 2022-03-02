@@ -1,4 +1,5 @@
 import * as React from 'react';
+import {useState} from 'react'
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
@@ -8,9 +9,14 @@ import { Typography } from '@mui/material';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import CallRoundedIcon from '@mui/icons-material/CallRounded';
 import MarkunreadRoundedIcon from '@mui/icons-material/MarkunreadRounded';
-import { Formik, Form, Field, ErrorMessage } from 'formik'
-import * as Yup from 'yup'
 import { makeStyles } from '@material-ui/core'
+import { db } from '../utils/init-firebase'
+import {
+  collection, getDocs,
+  addDoc
+} from 'firebase/firestore'
+
+
 
 
 const useStyles = makeStyles({
@@ -26,25 +32,47 @@ const useStyles = makeStyles({
 
 export default function ContactForm() {
   const classes = useStyles()
-  const initialValues = {
+  const [formdata, setFormdata] = useState({
     fullName:'',
     email: '',
     message:'',
     
-  }
-  const onSubmit = (values, props) => {
-    console.log(values)
-    setTimeout(() => {
-        props.resetForm()
-        props.setSubmitting(false)
-    }, 2000)
-  }
-  const validationSchema = Yup.object().shape({
-    fullName: Yup.string().required("Required!"),
-    email: Yup.string().email('Please Enter Valid Email!').required("Required!"),
-    message: Yup.string().required("Required!"),
-    
   })
+  const [isSubmitting, setIsSubmitting] = useState(false)
+
+//catch data from database
+const colref=collection(db, 'contacts')
+getDocs(colref)
+  .then((d)=>{
+      let contacts=[]
+      d.docs.forEach((doc)=>{
+          contacts.push({...doc.data(), id:doc.id})
+      })
+      console.log(contacts)
+  })
+  .catch(err=>{
+    console.log(err.message)
+  })
+
+
+  //submit data to database collection
+  const onSubmit = (e) => {
+    setIsSubmitting(true)
+    e.preventDefault();
+
+    addDoc(colref,{
+      name: formdata.fullName,
+      email: formdata.email,
+      message: formdata.message,
+    })
+    .then(()=>{
+      setTimeout(() => {
+        setIsSubmitting(false)
+    }, 2000)
+    })
+    e.target.reset();
+  }
+
   return (
     <Box sx={{ width: '100%', paddingY:10, paddingX:2, marginBottom:13 }}>
       <Typography variant="h4" textAlign={'center'}  component="h4">Contact</Typography>
@@ -52,24 +80,24 @@ export default function ContactForm() {
       <Grid container rowSpacing={0} columnSpacing={{ xs: 1, sm: 2, md: 3 }} sx={{ justifyContent:'center'}}>
         <Grid item xs={12} md={4} >
           <Paper  elevation={24} sx={{ padding:2, }}>
-          <Formik initialValues={initialValues} onSubmit={onSubmit} validationSchema={validationSchema}>
-          {(props)=>(
-            <Form>
-            {console.log(props)}
+
+            <form onSubmit={onSubmit}>
+            {/* {console.log(props)} */}
              <Box sx={{maxWidth: '100%', margin:3, }} >
-                <Field as={TextField}
+                <TextField
                   required
                   label="Full Name"
                   variant="outlined"
                   type="text"
                   fullWidth
                   name='fullName'
-                  helperText={<ErrorMessage name="fullName" />}
+                  onChange={(e)=>setFormdata({ ...formdata, fullName: e.target.value })}
                   placeholder='Enter Your Name' 
+                  
                   />
              </Box>                           
              <Box sx={{maxWidth: '100%', margin:3, }} > 
-             <Field as={TextField}
+             <TextField
                   required
                   label="Email"
                   variant="outlined"
@@ -77,27 +105,29 @@ export default function ContactForm() {
                   fullWidth
                   placeholder='Enter Your Email'
                   name='email'
-                  helperText={<ErrorMessage name="email" />}
+                  onChange={(e)=>setFormdata({ ...formdata, email: e.target.value })}
                 />
              </Box>
              <Box sx={{maxWidth: '100%', margin:3, }} > 
-               <Field as={TextField}
+               <TextField
                   minRows={4} 
                   required
                   fullWidth 
                   label="Message" 
                   name='message'
                   placeholder="Enter Your Message" 
-                  multiline />
+                  multiline 
+                  onChange={(e)=>setFormdata({ ...formdata, message: e.target.value })}
+                  
+              />
              </Box>
              <Box sx={{maxWidth: '100%', margin:3,}} > 
-                <Button disabled={props.isSubmitting} fullWidth type="submit" variant="contained" sx={{ margin: '8px 0', backgroundColor: '#3b0f1c',color:'yellow' }} className={classes.btn}>
-                      {props.isSubmitting ? "Sending" : "Send"}
+                <Button disabled={isSubmitting} fullWidth type="submit" variant="contained" sx={{ margin: '8px 0', backgroundColor: '#3b0f1c',color:'yellow' }} className={classes.btn}>
+                      {isSubmitting ? "Sending" : "Send"}
                 </Button>
              </Box>
-             </Form>
-              )}
-           </Formik>
+             </form>
+
           </Paper>
         </Grid>
         <Grid item xs={12} md={4}>
