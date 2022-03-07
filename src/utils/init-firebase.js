@@ -3,6 +3,12 @@ import { initializeApp } from 'firebase/app'
 import {
   getFirestore,
 } from 'firebase/firestore'
+
+import {
+  getAuth
+} from 'firebase/auth'
+
+
 const firebaseConfig = {
   apiKey: "AIzaSyDfsQq5PVCo3wtk0us6taRQY3MjRBukgY0",
   authDomain: "react-restaurant-app-3604c.firebaseapp.com",
@@ -17,3 +23,6 @@ initializeApp(firebaseConfig)
 
 //init firebase db
 export const db=getFirestore()
+
+//init auth
+export const auth=getAuth()

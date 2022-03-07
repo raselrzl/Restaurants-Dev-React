@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import Grid from '@mui/material/Grid';
 import { Avatar, Paper, TextField, Typography } from '@mui/material';
 import FormControlLabel from '@mui/material/FormControlLabel';
@@ -6,9 +6,11 @@ import Button from '@mui/material/Button';
 import Link from '@mui/material/Link';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import Checkbox from '@mui/material/Checkbox'
-import { Formik, Form, Field, ErrorMessage } from 'formik'
-import * as Yup from 'yup'
 import { makeStyles } from '@material-ui/core'
+import { auth } from '../utils/init-firebase'
+import {
+  createUserWithEmailAndPassword
+} from 'firebase/auth'
 
 const useStyles = makeStyles({
   btn: {
@@ -30,28 +32,42 @@ const useStyles = makeStyles({
 export default function SignUp() {
   const classes = useStyles()
 
-  const initialValues = {
+  const [formdata, setFormdata] = useState({
     fullName:'',
     email: '',
     phoneNumber:'',
     password:'',
     confirmPassword:'',
     conditions: false
-  }
-  const onSubmit = (values, props) => {
-    console.log(values)
-    setTimeout(() => {
-        props.resetForm()
-        props.setSubmitting(false)
-    }, 2000)
-  }
-  const validationSchema = Yup.object().shape({
-    fullName: Yup.string().required("Required!"),
-    email: Yup.string().email('Please Enter Valid Email!').required("Required!"),
-    phoneNumber: Yup.number().required("Required!"),
-    password: Yup.string().required("Required!"),
-    confirmPassword: Yup.string().required("Required!"),
   })
+
+  const [isSubmitting, setIsSubmitting] = useState(false)
+
+  const onSubmit = (e) => {
+    setIsSubmitting(true)
+    e.preventDefault();
+    const email = formdata.email
+    const password = formdata.password
+    createUserWithEmailAndPassword(auth, email, password )
+    .then(cred => {
+      console.log('user created:', cred.user)
+      formdata.reset()
+    })
+
+    .catch(err => {
+      console.log(err.message)
+    })
+    .then(()=>{
+      setTimeout(() => {
+        setIsSubmitting(false)
+    }, 3000)
+    })
+
+  console.log(formdata)
+}
+
+
+
   return (
     <Grid sx={{color:'#3b0f1c',marginBottom:'40px',paddingTop:'20px'}}>
      <Paper elevation={10} sx={{ minHeight: '70vh', width: 300, marginX: 'auto', marginTop: 10, paddingBottom:2 }}>
@@ -63,11 +79,8 @@ export default function SignUp() {
           </Grid>
 
           <Grid  paddingX={3}>
-        <Formik initialValues={initialValues} onSubmit={onSubmit} validationSchema={validationSchema}>
-          {(props)=>(
-            <Form>
-            {console.log(props)}
-              <Field as={TextField}
+            <form onSubmit={ onSubmit }>
+              <TextField
                   required
                   label="Full Name"
                   variant="standard"
@@ -75,9 +88,9 @@ export default function SignUp() {
                   fullWidth
                   placeholder='Enter Your Name'
                   name='fullName'
-                  helperText={<ErrorMessage name="fullName" />}
+                  onChange={(e)=>setFormdata({ ...formdata, fullName: e.target.value })}
                 />
-                <Field as={TextField}
+                <TextField
                   required
                   label="Email"
                   variant="standard"
@@ -85,10 +98,10 @@ export default function SignUp() {
                   fullWidth
                   placeholder='Enter Your Email'
                   name='email'
-                  helperText={<ErrorMessage name="email" />}
+                  onChange={(e)=>setFormdata({ ...formdata, email: e.target.value })}
                 />
               
-              <Field as={TextField}
+              <TextField
                   required
                   label="Phone Number"
                   variant="standard"
@@ -96,9 +109,9 @@ export default function SignUp() {
                   fullWidth
                   placeholder='Enter Your Phone Number'
                   name='phoneNumber'
-                  helperText={<ErrorMessage name="phoneNumber" />}
+                  onChange={(e)=>setFormdata({ ...formdata, phoneNumber: e.target.value })}
                 />
-                <Field as={TextField}
+                <TextField
                   required
                   label="Password"
                   variant="standard"
@@ -106,9 +119,9 @@ export default function SignUp() {
                   fullWidth
                   name='password'
                   placeholder='Create a Password'
-                  helperText={<ErrorMessage name="password" />}
+                  onChange={(e)=>setFormdata({ ...formdata, password: e.target.value })}
                 />
-                <Field as={TextField}
+                <TextField
                   required
                   label="Confirm Password"
                   variant="standard"
@@ -116,15 +129,13 @@ export default function SignUp() {
                   fullWidth
                   placeholder='Confirm Passwpord'
                   name='confirmPassword'
-                  helperText={<ErrorMessage name="confirmPassword" />}
+                  onChange={(e)=>setFormdata({ ...formdata, confirmPassword: e.target.value })}
                 />
-                <Field as={FormControlLabel} name='conditions' control={<Checkbox sx={{color: '#3b0f1c','&.Mui-checked': {color: '#3b0f1c',},}}/>} label="I accept the Conditions." />
-                <Button disabled={props.isSubmitting} fullWidth type="submit" variant="contained" sx={{ margin: '8px 0', backgroundColor: '#3b0f1c',color:'yellow' }} className={classes.btn}>
-                      {props.isSubmitting ? "Loading" : "Sign Up"}
+                <FormControlLabel  name='conditions' control={<Checkbox onChange={(e)=>setFormdata({ ...formdata, conditions: !formdata.conditions })} checked={formdata.conditions} sx={{color: '#3b0f1c','&.Mui-checked': {color: '#3b0f1c',},}}/>} label="I accept the Conditions." />
+                <Button disabled={isSubmitting} fullWidth type="submit" variant="contained" sx={{ margin: '8px 0', backgroundColor: '#3b0f1c',color:'yellow' }} className={classes.btn}>
+                      {isSubmitting ? "Signing" : "Sign Up"}
                 </Button>
-             </Form>
-              )}
-           </Formik>
+             </form>
           </Grid>          
           <Typography align='center' sx={{fontSize:'11px'}} paddingX={2}>Have Account? <Link className={classes.Link} href="/login"  underline='none'   sx={{ color: '#3b0f1c',fontWeight: 'bold', fontSize:'13px'}}>Sign In</Link></Typography>
       </Paper>
