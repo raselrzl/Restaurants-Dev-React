@@ -41,7 +41,7 @@ const ResponsiveAppBar = () => {
   const logOut=()=>{
     signOut(auth)
     .then(()=>{
-      console.log('the user is log out')
+      //console.log('the user is log out')
     })
     .catch((err)=>{
       console.log(err.message)

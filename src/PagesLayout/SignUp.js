@@ -50,7 +50,7 @@ export default function SignUp() {
     const password = formdata.password
     createUserWithEmailAndPassword(auth, email, password )
     .then(cred => {
-      console.log('user created:', cred.user)
+      //console.log('user created:', cred.user)
     })
 
     .catch(err => {

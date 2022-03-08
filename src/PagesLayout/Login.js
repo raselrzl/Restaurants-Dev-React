@@ -7,7 +7,7 @@ import Checkbox from '@mui/material/Checkbox'
 import Button from '@mui/material/Button';
 import Link from '@mui/material/Link';
 import { makeStyles } from '@material-ui/core'
-import { signInWithEmailAndPassword } from 'firebase/auth';
+import { signInWithEmailAndPassword, onAuthStateChanged  } from 'firebase/auth';
 import { auth } from '../utils/init-firebase';
 
 
@@ -43,7 +43,7 @@ const onSubmit = (e) => {
   const password = formdata.password
   signInWithEmailAndPassword(auth, email, password )
   .then((cred)=>{
-    console.log('user Logged in:', cred.user)
+    //console.log('user Logged in:', cred.user)
   })
   .catch((err)=>{
     console.log(err.message)
@@ -51,6 +51,10 @@ const onSubmit = (e) => {
   e.target.reset();
 
 }
+
+onAuthStateChanged(auth,(user)=>{
+  console.log('user status changed:', user)
+})
 
 
   return (

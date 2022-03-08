@@ -5,7 +5,7 @@ import {
 } from 'firebase/firestore'
 
 import {
-  getAuth
+  getAuth,
 } from 'firebase/auth'
 
 
@@ -26,3 +26,6 @@ export const db=getFirestore()
 
 //init auth
 export const auth=getAuth()
+
+//reacl time auth status
+
