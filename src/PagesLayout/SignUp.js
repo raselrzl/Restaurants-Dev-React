@@ -51,7 +51,6 @@ export default function SignUp() {
     createUserWithEmailAndPassword(auth, email, password )
     .then(cred => {
       console.log('user created:', cred.user)
-      formdata.reset()
     })
 
     .catch(err => {
@@ -62,7 +61,7 @@ export default function SignUp() {
         setIsSubmitting(false)
     }, 3000)
     })
-
+    e.target.reset();
   console.log(formdata)
 }
 
@@ -133,7 +132,7 @@ export default function SignUp() {
                 />
                 <FormControlLabel  name='conditions' control={<Checkbox onChange={(e)=>setFormdata({ ...formdata, conditions: !formdata.conditions })} checked={formdata.conditions} sx={{color: '#3b0f1c','&.Mui-checked': {color: '#3b0f1c',},}}/>} label="I accept the Conditions." />
                 <Button disabled={isSubmitting} fullWidth type="submit" variant="contained" sx={{ margin: '8px 0', backgroundColor: '#3b0f1c',color:'yellow' }} className={classes.btn}>
-                      {isSubmitting ? "Signing" : "Sign Up"}
+                      {isSubmitting ? "Signing up" : "Sign Up"}
                 </Button>
              </form>
           </Grid>          

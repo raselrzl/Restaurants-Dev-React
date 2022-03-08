@@ -15,6 +15,8 @@ import Rasel from '../Images/Rasel.jpg'
 import DeliLogo from '../Images/DeliLogo.png'
 import {Link} from 'react-router-dom'
 import Drawer from '@mui/material/Drawer';
+import { signOut } from 'firebase/auth';
+import { auth } from '../utils/init-firebase';
 
 
 const ResponsiveAppBar = () => {
@@ -35,6 +37,16 @@ const ResponsiveAppBar = () => {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
+
+  const logOut=()=>{
+    signOut(auth)
+    .then(()=>{
+      console.log('the user is log out')
+    })
+    .catch((err)=>{
+      console.log(err.message)
+    })
+  }
     return (
     <AppBar position="fixed" sx={{backgroundColor:'#3b0f1c'}}>
       <Container maxWidth="xl">
@@ -115,7 +127,7 @@ const ResponsiveAppBar = () => {
               onClose={handleCloseUserMenu}
             >
                 <Link to="/profile"><Button onClick={handleCloseNavMenu} sx={{ my: 2, display: 'block' }}>Profile</Button></Link>
-                <Link to="/"><Button onClick={handleCloseNavMenu} sx={{ my: 2, display: 'block' }}>Logout</Button></Link>
+                <Link to="/"><Button onClick={logOut} sx={{ my: 2, display: 'block' }}>Logout</Button></Link>
                 <Link to="/signup"><Button onClick={handleCloseNavMenu} sx={{ my: 2, display: 'block' }}>Sign Up</Button></Link>
                 <Link to="/login"><Button onClick={handleCloseNavMenu} sx={{ my: 2, display: 'block' }}>Sign In</Button></Link>
          

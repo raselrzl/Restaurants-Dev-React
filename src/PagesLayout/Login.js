@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import Grid from '@mui/material/Grid';
 import { Avatar, Paper, TextField, Typography } from '@mui/material';
 import PunchClockIcon from '@mui/icons-material/PunchClock';
@@ -6,9 +6,10 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox'
 import Button from '@mui/material/Button';
 import Link from '@mui/material/Link';
-import { Formik, Form, Field, ErrorMessage } from 'formik'
-import * as Yup from 'yup'
 import { makeStyles } from '@material-ui/core'
+import { signInWithEmailAndPassword } from 'firebase/auth';
+import { auth } from '../utils/init-firebase';
+
 
 const useStyles = makeStyles({
   btn: {
@@ -29,24 +30,29 @@ const useStyles = makeStyles({
 export default function Login() {
   const classes = useStyles()
 
-  const initialValues = {
+  const [formdata, setFormdata] = useState({
     email: '',
     password: '',
     remember: false
-}
-
-const onSubmit = (values, props) => {
-  console.log(values)
-  setTimeout(() => {
-      props.resetForm()
-      props.setSubmitting(false)
-  }, 2000)
-}
-
-const validationSchema = Yup.object().shape({
-  email: Yup.string().email('Please Enter Valid Email!').required("Required!"),
-  password: Yup.string().required("Required!")
 })
+const [isSubmitting, setIsSubmitting] = useState(false)
+const onSubmit = (e) => {
+  e.preventDefault();
+  setIsSubmitting(true)
+  const email = formdata.email
+  const password = formdata.password
+  signInWithEmailAndPassword(auth, email, password )
+  .then((cred)=>{
+    console.log('user Logged in:', cred.user)
+  })
+  .catch((err)=>{
+    console.log(err.message)
+  })
+  e.target.reset();
+
+}
+
+
   return (
     <Grid sx={{marginBottom:'40px',paddingY:'20px',overflow:'auto'}}>
       <Paper elevation={10} sx={{ minHeight: '70vh', width: 300, marginLeft: 'auto', marginTop: 10, marginRight: 'auto' }}>
@@ -55,11 +61,9 @@ const validationSchema = Yup.object().shape({
             <PunchClockIcon />
           </Avatar>
           <Typography variant='h6' component="h3" sx={{ fontWeight: 'bold'}}>Sign In</Typography>
-           <Formik initialValues={initialValues} onSubmit={onSubmit} validationSchema={validationSchema}>
-             {(props)=>(
-               <Form >
-                  {console.log(props)}
-                  <Field as={TextField}
+
+               <form onSubmit={ onSubmit }>
+                  <TextField
                     required                    
                     label="Email"
                     variant="standard"
@@ -67,10 +71,10 @@ const validationSchema = Yup.object().shape({
                     fullWidth
                     placeholder='Enter Your Email'
                     name='email'
-                    helperText={<ErrorMessage name="email" />}
+                    onChange={(e)=>setFormdata({ ...formdata, email: e.target.value })}
                     
                   />
-                  <Field as={TextField}
+                  <TextField
                     required
                     label="Password"
                     variant="standard"
@@ -78,16 +82,15 @@ const validationSchema = Yup.object().shape({
                     fullWidth
                     placeholder='Enter Your Password'
                     name='password'
-                    helperText={<ErrorMessage name="password" />}
+                    onChange={(e)=>setFormdata({ ...formdata, password: e.target.value })}
                   />
-                  <Field as={FormControlLabel} name='remember' control={<Checkbox sx={{color: '#3b0f1c','&.Mui-checked': {color: '#3b0f1c',},}}/>} label="Remember Me" />
-                  <Button disabled={props.isSubmitting} fullWidth type="submit" variant="contained" sx={{ margin: '8px 0', backgroundColor: '#3b0f1c',color:'yellow' }} className={classes.btn}>
-                    {props.isSubmitting ? "Loading" : "Sign In"}
-                  </Button>
+                 <FormControlLabel  name='remember' control={<Checkbox onChange={(e)=>setFormdata({ ...formdata, remember: !formdata.remember })} checked={formdata.remember} sx={{color: '#3b0f1c','&.Mui-checked': {color: '#3b0f1c',},}}/>} label="Remember me." />
+                  <Button disabled={isSubmitting} fullWidth type="submit" variant="contained" sx={{ margin: '8px 0', backgroundColor: '#3b0f1c',color:'yellow' }} className={classes.btn}>
+                      {isSubmitting ? "Signing" : "Sign In"}
+                </Button>
               
-               </Form>
-             )}
-           </Formik>
+               </form>
+
           
         </Grid>
         <Typography align='center'  sx={{fontSize:'11px'}} marginTop={2} paddingX={2}>Forgot Password <Link className={classes.Link} underline='none' href="/reset-password" sx={{ color: '#3b0f1c',fontWeight: 'bold', fontSize:'13px'}}>Click Here</Link></Typography>
