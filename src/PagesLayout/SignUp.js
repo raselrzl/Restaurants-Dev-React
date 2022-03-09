@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import Grid from '@mui/material/Grid';
-import { Avatar, Paper, TextField, Typography } from '@mui/material';
+import {Avatar, Paper, TextField, Typography } from '@mui/material';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Button from '@mui/material/Button';
 import Link from '@mui/material/Link';
@@ -50,7 +50,7 @@ export default function SignUp() {
     const password = formdata.password
     createUserWithEmailAndPassword(auth, email, password )
     .then(cred => {
-      //console.log('user created:', cred.user)
+      console.log('user created:', cred.user)
     })
 
     .catch(err => {

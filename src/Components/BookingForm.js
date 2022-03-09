@@ -156,7 +156,6 @@ onSnapshot(bookRef,(snapshot)=>{
           <TextField
               sx={{paddingBottom:'5px',marginY:1}}
               label="Note"
-              defaultValue=""
               variant="outlined"
               multiline
               type="text"

@@ -9,6 +9,8 @@ import Link from '@mui/material/Link';
 import { makeStyles } from '@material-ui/core'
 import { signInWithEmailAndPassword, onAuthStateChanged  } from 'firebase/auth';
 import { auth } from '../utils/init-firebase';
+import { useNavigate } from 'react-router';
+
 
 
 const useStyles = makeStyles({
@@ -28,6 +30,7 @@ const useStyles = makeStyles({
 
 
 export default function Login() {
+  const navigate=useNavigate()
   const classes = useStyles()
 
   const [formdata, setFormdata] = useState({
@@ -44,12 +47,17 @@ const onSubmit = (e) => {
   signInWithEmailAndPassword(auth, email, password )
   .then((cred)=>{
     //console.log('user Logged in:', cred.user)
+    navigate('/profile')
   })
   .catch((err)=>{
     console.log(err.message)
   })
-  e.target.reset();
-
+  .then(()=>{
+    setTimeout(() => {
+      setIsSubmitting(false)
+  }, 3000)
+  })
+ 
 }
 
 onAuthStateChanged(auth,(user)=>{

@@ -4,9 +4,12 @@ import Carousel from '../Components/Carousel';
 import GoogleMap from '../Components/GoogleMap';
 import LinearProgress from '@mui/material/LinearProgress';
 import Skeleton from '@mui/material/Skeleton';
+import { useAuth } from '../Contexts/AuthContext';
 
 
 export default function Home() {
+     const {currentUser}= useAuth()
+     
       
   return <div >
                <Grid sx={{height:'300px',Width:'100%', marginTop:'60px', opacity:'.7'}} id='homepage-image'>
@@ -30,6 +33,8 @@ export default function Home() {
                         bästa sätt och skapa ett magiskt ställe för folk att umgås och ha kul oavsett dag i veckan. 
                         Med en rik historia i Norrköpings krogliv skapar vi nya minnen tillsammans med er.
                   </Typography>
+                  <p>{`the current user is: ${currentUser}`}</p>
+                  {console.log(currentUser)}
                   </Paper>
                 
                </Grid>
